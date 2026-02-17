@@ -66,7 +66,7 @@ def cache_trends_to_db(trends_data):
             cur.execute('''
                 INSERT INTO trends (keyword, niche, volume, velocity, virality_score)
                 VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT (keyword, niche, DATE(fetched_at)) DO UPDATE
+                ON CONFLICT (keyword, niche, fetched_at) DO UPDATE
                 SET volume = EXCLUDED.volume, 
                     velocity = EXCLUDED.velocity,
                     virality_score = EXCLUDED.virality_score

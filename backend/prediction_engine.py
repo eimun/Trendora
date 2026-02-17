@@ -158,7 +158,7 @@ def save_predictions_to_db(predictions):
             INSERT INTO predicted_trends 
             (keyword, niche, current_volume, predicted_volume, growth_rate, confidence_score, predicted_peak_date)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (keyword, niche, DATE(prediction_made_at)) DO UPDATE
+            ON CONFLICT (keyword, niche, prediction_made_at) DO UPDATE
             SET current_volume = EXCLUDED.current_volume,
                 predicted_volume = EXCLUDED.predicted_volume,
                 growth_rate = EXCLUDED.growth_rate,

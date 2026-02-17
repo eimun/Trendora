@@ -41,7 +41,7 @@ def migrate():
             confidence_score FLOAT,
             predicted_peak_date DATE,
             prediction_made_at TIMESTAMP DEFAULT NOW(),
-            UNIQUE(keyword, niche, DATE(prediction_made_at))
+            UNIQUE(keyword, niche, prediction_made_at)
         )
     ''')
     

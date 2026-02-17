@@ -30,7 +30,7 @@ def init_db():
             volume INT,
             velocity VARCHAR(50),
             fetched_at TIMESTAMP DEFAULT NOW(),
-            UNIQUE(keyword, niche, DATE(fetched_at))
+            UNIQUE(keyword, niche, fetched_at)
         )
     ''')
     

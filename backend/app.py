@@ -8,6 +8,20 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+# Auto-create tables on startup
+from database import init_db
+init_db()
+
+# Run migrations
+from migrations.add_virality_score import migrate as add_virality
+from migrations.add_gap_analysis import migrate as add_gaps
+from migrations.add_style_learning import migrate as add_style
+from migrations.add_forecasting import migrate as add_forecasting
+add_virality()
+add_gaps()
+add_style()
+add_forecasting()
+
 # Register blueprints
 from auth import auth_bp
 from routes.trends import trends_bp

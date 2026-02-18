@@ -1,9 +1,9 @@
-import google.generativeai as genai
 import os
 import json
+from google import genai
 
-genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-model = genai.GenerativeModel("gemini-1.5-flash")
+client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+MODEL = "gemini-1.5-flash"
 
 def analyze_writing_style(sample_texts):
     """
@@ -33,7 +33,10 @@ Return a JSON object with:
 """
     
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model=MODEL,
+            contents=prompt
+        )
         text = response.text.strip()
         
         if '```json' in text:
@@ -103,7 +106,10 @@ Match their style EXACTLY. Return as JSON:
 """
     
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model=MODEL,
+            contents=prompt
+        )
         text = response.text.strip()
         
         if '```json' in text:

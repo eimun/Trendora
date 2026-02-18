@@ -48,10 +48,12 @@ def check_api_keys():
     
     # Test Gemini
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content("Say 'API works'")
+        from google import genai
+        client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents="Say 'API works'"
+        )
         print("✅ Gemini API key valid")
     except Exception as e:
         print(f"❌ Gemini API key invalid: {e}")
@@ -73,7 +75,7 @@ def check_dependencies():
     """Check if all packages are installed"""
     required_packages = [
         'flask', 'flask_cors', 'psycopg2', 'pytrends', 
-        'google.generativeai', 'googleapiclient',
+        'google.genai', 'googleapiclient',
         'pandas', 'sklearn', 'bcrypt', 'jwt'
     ]
     

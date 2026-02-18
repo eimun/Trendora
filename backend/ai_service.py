@@ -5,7 +5,7 @@ import json
 gemini_key = os.getenv('GEMINI_API_KEY')
 print(f"🔑 GEMINI_API_KEY loaded: {'YES (' + gemini_key[:10] + '...)' if gemini_key else 'NO - KEY IS MISSING!'}")
 genai.configure(api_key=gemini_key)
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 def generate_script(trend_keyword, content_type='video', user_id=None, use_style=False):
     """Generate content script using Gemini, optionally using user's style"""

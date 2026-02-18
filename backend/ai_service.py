@@ -9,43 +9,46 @@ def generate_script(trend_keyword, content_type='video', user_id=None, use_style
     """Generate content script using Gemini, optionally using user's style"""
     
     if use_style and user_id:
-        # Check if user has style profile
-        from database import get_db_connection
-        from style_analyzer import generate_in_user_style
-        
-        conn = get_db_connection()
-        cur = conn.cursor()
-        
-        cur.execute('''
-            SELECT style_trained, style_profile FROM users WHERE id = %s
-        ''', (user_id,))
-        
-        user_data = cur.fetchone()
-        
-        if user_data and user_data[0]:  # style_trained is True
-            # Get user's past scripts
+        try:
+            # Check if user has style profile
+            from database import get_db_connection
+            from style_analyzer import generate_in_user_style
+            
+            conn = get_db_connection()
+            cur = conn.cursor()
+            
             cur.execute('''
-                SELECT script_text FROM generated_content
-                WHERE user_id = %s
-                ORDER BY created_at DESC
-                LIMIT 5
+                SELECT style_trained, style_profile FROM users WHERE id = %s
             ''', (user_id,))
             
-            scripts = [json.loads(row[0]) for row in cur.fetchall()]
-            sample_texts = [f"{s.get('hook', '')} {s.get('body', '')}" for s in scripts]
+            user_data = cur.fetchone()
             
-            style_profile = json.loads(user_data[1])
-            
-            cur.close()
-            conn.close()
-            
-            # Generate using style
-            result = generate_in_user_style(trend_keyword, style_profile, sample_texts, content_type)
-            if result:
-                return result
-        else:
-            cur.close()
-            conn.close()
+            if user_data and user_data[0]:  # style_trained is True
+                # Get user's past scripts
+                cur.execute('''
+                    SELECT script_text FROM generated_content
+                    WHERE user_id = %s
+                    ORDER BY created_at DESC
+                    LIMIT 5
+                ''', (user_id,))
+                
+                scripts = [json.loads(row[0]) for row in cur.fetchall()]
+                sample_texts = [f"{s.get('hook', '')} {s.get('body', '')}" for s in scripts]
+                
+                style_profile = json.loads(user_data[1])
+                
+                cur.close()
+                conn.close()
+                
+                # Generate using style
+                result = generate_in_user_style(trend_keyword, style_profile, sample_texts, content_type)
+                if result:
+                    return result
+            else:
+                cur.close()
+                conn.close()
+        except Exception as e:
+            print(f"⚠️ Style-based generation failed, falling back to standard: {e}")
     
     # Standard generation (fallback or default)
     if content_type == 'video':

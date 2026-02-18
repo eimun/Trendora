@@ -61,6 +61,17 @@ function Dashboard() {
                     {/* Trends Grid */}
                     {loading ? (
                         <div className="text-center py-12">Loading trends...</div>
+                    ) : trends.length === 0 ? (
+                        <div className="text-center py-12 text-gray-500">
+                            <p className="text-xl mb-2">No trends found</p>
+                            <p>Try selecting a different niche or refresh the page.</p>
+                            <button
+                                onClick={() => fetchTrends(selectedNiche)}
+                                className="mt-4 px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                            >
+                                Retry
+                            </button>
+                        </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {trends.map((trend, index) => (

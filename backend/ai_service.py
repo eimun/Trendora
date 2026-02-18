@@ -2,7 +2,9 @@ import google.generativeai as genai
 import os
 import json
 
-genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
+gemini_key = os.getenv('GEMINI_API_KEY')
+print(f"🔑 GEMINI_API_KEY loaded: {'YES (' + gemini_key[:10] + '...)' if gemini_key else 'NO - KEY IS MISSING!'}")
+genai.configure(api_key=gemini_key)
 model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 def generate_script(trend_keyword, content_type='video', user_id=None, use_style=False):

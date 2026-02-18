@@ -3,7 +3,7 @@ import os
 import json
 
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 def generate_script(trend_keyword, content_type='video', user_id=None, use_style=False):
     """Generate content script using Gemini, optionally using user's style"""

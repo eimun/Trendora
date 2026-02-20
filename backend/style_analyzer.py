@@ -3,7 +3,7 @@ import json
 from google import genai
 
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
-MODEL = "gemini-1.5-flash"
+MODEL = "gemini-1.5-flash-002"
 
 def analyze_writing_style(sample_texts):
     """

@@ -34,11 +34,8 @@ function PredictiveDashboard() {
                 setPredictions(response.data || []);
             }
         } catch (error) {
-            if (error.response?.status === 400 && !forceRefresh) {
-                // Only retry once from cached path — don't recurse if already forcing
-                fetchPredictions(niche, true);
-            } else if (error.response?.status === 400) {
-                // forceRefresh already true — no data available, stop retrying
+            if (error.response?.status === 400) {
+                // Not enough historical data — show empty state, no retry
                 setPredictions([]);
             } else {
                 alert('Failed to fetch predictions');

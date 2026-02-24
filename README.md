@@ -140,6 +140,7 @@ Login: `demo@trendora.com` / `demo123`
 ## 👥 Team
 
 - **Eimun Akit Purti** - Frontend & AI Integration
+- **Anuj Patel** - Backend & API Architecture
 
 ## 📄 License
 

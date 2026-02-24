@@ -108,6 +108,14 @@ trendora/
 │           ├── LoadingSpinner.jsx
 │           └── ErrorBoundary.jsx
 ├── DEMO_SCRIPT.md
+├── docs/
+│   ├── Feature_Breakdown.md
+│   ├── API_Contracts.md
+│   ├── Deployment_Plan.md
+│   ├── HLD.png
+│   ├── LLD.md
+│   ├── DataFlow.md
+│   └── DB_Schema.md
 └── README.md
 ```
 
@@ -132,7 +140,21 @@ Login: `demo@trendora.com` / `demo123`
 | POST | `/api/predictions/forecast` | Generate predictions |
 | GET | `/api/predictions/cached` | Get cached predictions |
 
-## 🚀 Deployment
+## � Architecture & Documentation
+
+The project includes complete system design documentation:
+
+- 📋 [Feature Breakdown](docs/Feature_Breakdown.md) — Detailed breakdown of all 8 core features
+- 📐 [High-Level Design (HLD)](docs/HLD.png) — System architecture overview
+- 🔧 [Low-Level Design (LLD)](docs/LLD.md) — Module-level architecture with component diagrams
+- 🔀 [Data Flow Diagram](docs/DataFlow.md) — Request flows, auth sequence, generation pipeline
+- 🗄️ [Database Schema](docs/DB_Schema.md) — ERD with 8 tables, constraints, and relationships
+- 📡 [API Contracts](docs/API_Contracts.md) — All 12 endpoints with request/response examples
+- 🚢 [Deployment Plan](docs/Deployment_Plan.md) — Vercel + Render deployment guide
+
+> 📂 Full documentation available inside the [`/docs`](docs/) folder.
+
+## �🚀 Deployment
 
 - **Backend**: Deploy to Render using `render.yaml`
 - **Frontend**: Deploy to Vercel using `vercel.json`

@@ -115,6 +115,7 @@ trendora/
 │   ├── HLD.png
 │   ├── LLD.md
 │   ├── DataFlow.md
+│   ├── User_Flow.md
 │   └── DB_Schema.md
 └── README.md
 ```

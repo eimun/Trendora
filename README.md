@@ -110,13 +110,16 @@ trendora/
 ├── DEMO_SCRIPT.md
 ├── docs/
 │   ├── Feature_Breakdown.md
+│   ├── API_Planning.md
 │   ├── API_Contracts.md
+│   ├── Database_Entity_Identification.md
+│   ├── DB_Schema.md
 │   ├── Deployment_Plan.md
 │   ├── HLD.png
 │   ├── LLD.md
 │   ├── DataFlow.md
 │   ├── User_Flow.md
-│   └── DB_Schema.md
+│   └── Consumer_Flow.md
 └── README.md
 ```
 
@@ -141,7 +144,7 @@ Login: `demo@trendora.com` / `demo123`
 | POST | `/api/predictions/forecast` | Generate predictions |
 | GET | `/api/predictions/cached` | Get cached predictions |
 
-## � Architecture & Documentation
+## 📑 Architecture & Documentation
 
 The project includes complete system design documentation:
 
@@ -149,13 +152,17 @@ The project includes complete system design documentation:
 - 📐 [High-Level Design (HLD)](docs/HLD.png) — System architecture overview
 - 🔧 [Low-Level Design (LLD)](docs/LLD.md) — Module-level architecture with component diagrams
 - 🔀 [Data Flow Diagram](docs/DataFlow.md) — Request flows, auth sequence, generation pipeline
-- 🗄️ [Database Schema](docs/DB_Schema.md) — ERD with 8 tables, constraints, and relationships
+- 🛣️ [User Flow Diagram](docs/User_Flow.md) — End-to-end user journeys (Mermaid state diagram)
+- 👥 [Consumer Flow Diagram](docs/Consumer_Flow.md) — Insight consumption vs action phases
+- 🗄️ [Database Entity Identification](docs/Database_Entity_Identification.md) — Core business entities defined
+- 🗂️ [Database Schema](docs/DB_Schema.md) — ERD with 8 tables, constraints, and relationships
+- 📝 [API Planning](docs/API_Planning.md) — High-level REST resource planning
 - 📡 [API Contracts](docs/API_Contracts.md) — All 12 endpoints with request/response examples
 - 🚢 [Deployment Plan](docs/Deployment_Plan.md) — Vercel + Render deployment guide
 
 > 📂 Full documentation available inside the [`/docs`](docs/) folder.
 
-## �🚀 Deployment
+## 🚀 Deployment
 
 - **Backend**: Deploy to Render using `render.yaml`
 - **Frontend**: Deploy to Vercel using `vercel.json`

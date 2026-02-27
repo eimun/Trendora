@@ -25,55 +25,55 @@ flowchart TD
     FETCH_TRENDS --> GAP
     
     INPUT_COMP[Input Competitor URL]:::actionNode
-    GAP -->|✅ Yes| INPUT_COMP
+    GAP -->|Yes| INPUT_COMP
     
     IS_GAP{High<br/>Opportunity?}:::decisionNode
     INPUT_COMP --> IS_GAP
     
-    IS_GAP -->|❌ No| FETCH_TRENDS
+    IS_GAP -->|No| FETCH_TRENDS
     
     PRED{Check ML<br/>Forecast?}:::decisionNode
-    GAP -->|❌ No| PRED
-    IS_GAP -->|✅ Yes| PRED
+    GAP -->|No| PRED
+    IS_GAP -->|Yes| PRED
     
     RUN_PRED[Run Trend Prediction]:::actionNode
-    PRED -->|✅ Yes| RUN_PRED
+    PRED -->|Yes| RUN_PRED
     
     IS_GROWTH{Trend<br/>Growing?}:::decisionNode
     RUN_PRED --> IS_GROWTH
     
-    IS_GROWTH -->|❌ No| FETCH_TRENDS
+    IS_GROWTH -->|No| FETCH_TRENDS
     
     GENERATE[Generate AI Script]:::actionNode
-    IS_GROWTH -->|✅ Yes| GENERATE
-    PRED -->|❌ No| GENERATE
+    IS_GROWTH -->|Yes| GENERATE
+    PRED -->|No| GENERATE
     
     STYLE{Use Custom<br/>Style?}:::decisionNode
     GENERATE --> STYLE
     
     HAS_PROFILE{Profile<br/>Trained?}:::decisionNode
-    STYLE -->|✅ Yes| HAS_PROFILE
+    STYLE -->|Yes| HAS_PROFILE
     
     TRAIN_STYLE[Train Style Engine]:::actionNode
-    HAS_PROFILE -->|❌ No| TRAIN_STYLE
+    HAS_PROFILE -->|No| TRAIN_STYLE
     
     PERS_SCRIPT[Apply Style Profile]:::actionNode
     TRAIN_STYLE --> PERS_SCRIPT
-    HAS_PROFILE -->|✅ Yes| PERS_SCRIPT
+    HAS_PROFILE -->|Yes| PERS_SCRIPT
     
     GEN_GENERIC[Generate Generic Script]:::actionNode
-    STYLE -->|❌ No| GEN_GENERIC
+    STYLE -->|No| GEN_GENERIC
     
     CALENDAR{Schedule<br/>Post?}:::decisionNode
     PERS_SCRIPT --> CALENDAR
     GEN_GENERIC --> CALENDAR
     
     SAVE_POST[Save to Content Calendar]:::actionNode
-    CALENDAR -->|✅ Yes| SAVE_POST
+    CALENDAR -->|Yes| SAVE_POST
     
     END([Content Strategy Complete]):::endNode
     SAVE_POST --> END
-    CALENDAR -->|❌ No| END
+    CALENDAR -->|No| END
 ```
 
 ## Flow Breakdown

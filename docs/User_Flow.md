@@ -1,52 +1,74 @@
 # Trendora — User Flow Diagram
 
-This diagram visualizes the end-to-end journey of a user interacting with the Trendora platform, from landing on the site to utilizing its core features like trend discovery, content generation, and predictive forecasting.
+This diagram visualizes the end-to-end journey of a user interacting with the Trendora platform, using distinct shapes to represent different elements (User = Circle, UI/Pages = Rounded Boxes, Actions/Inputs = Parallelograms, Decisions = Diamonds, Databases/Storage = Cylinders).
 
 ```mermaid
-stateDiagram-v2
-    [*] --> LandingPage: User visits site
-    LandingPage --> Registration: Click Sign Up
-    LandingPage --> Login: Click Log In
+flowchart TD
+    %% Define Shapes
+    U((👤 User))
+    LP([Landing Page])
+    REG{Has Account?}
+    DASH([Dashboard])
     
-    Registration --> Dashboard: Successful Sign Up (JWT token issued)
-    Login --> Dashboard: Successful Log In (JWT token issued)
+    %% Flows
+    U --> LP
+    LP --> REG
+    REG -- No --> SIGNUP[/Sign Up Form/]
+    REG -- Yes --> LOGIN[/Login Form/]
     
-    state DashboardArea {
+    SIGNUP -->|JWT Token| DASH
+    LOGIN -->|JWT Token| DASH
+    
+    subgraph "Core Platform Features"
         direction TB
         
-        state "Trend Discovery & Generation" as GenFlow {
-            Dashboard --> SelectNiche: Choose niche (Tech/Finance/etc.)
-            SelectNiche --> ViewTrends: View scored trending topics
-            ViewTrends --> GenerateContent: Click "Generate Content" on a trend
-            GenerateContent --> ContentResult: View generated script, hooks, hashtags
-            ContentResult --> SaveToCalendar: Click "Schedule Content"
-        }
+        %% Trend Gen Flow
+        T_NICHE{Select Niche?}
+        T_VIEW[[View Scored Trends]]
+        T_GEN([Click Generate])
+        T_RES[/AI Content Script/]
+        T_CAL[(Save to Calendar)]
         
-        state "Style Training" as StyleFlow {
-            Dashboard --> TrainStyle: Navigate to Style Trainer
-            TrainStyle --> InputSamples: Paste past content samples
-            InputSamples --> StyleProfile: AI learns user's voice
-        }
+        %% Style Flow
+        S_PAGE([Style Trainer])
+        S_INPUT[/Paste Sample Content/]
+        S_PROF[(Style Profile Database)]
         
-        state "Competitor Gap Analysis" as GapFlow {
-            Dashboard --> GapAnalysis: Navigate to Gap Analysis
-            GapAnalysis --> AddCompetitor: Input competitor YouTube channel
-            GapAnalysis --> ViewOpportunities: View trends competitors missed
-        }
+        %% Gap Flow
+        G_PAGE([Gap Analysis])
+        G_INPUT[/Add Competitor URLs/]
+        G_CALC{{Calculate Coverage}}
+        G_RES[[View Missed Trends]]
         
-        state "Predictive Forecasting" as PredFlow {
-            Dashboard --> MLPredictions: Navigate to Predictions
-            MLPredictions --> ViewForecast: View 7-day volume forecasts & recommendations
-        }
-    }
+        %% Prediction Flow
+        P_PAGE([Predictions])
+        P_ML{{Run ML Model}}
+        P_RES[[View 7-Day Forecast]]
+    end
     
-    SaveToCalendar --> Dashboard
-    StyleProfile --> Dashboard
-    ViewOpportunities --> Dashboard
-    ViewForecast --> Dashboard
+    DASH -->|Browse Trends| T_NICHE
+    T_NICHE --> T_VIEW
+    T_VIEW --> T_GEN
+    T_GEN --> T_RES
+    T_RES --> T_CAL
     
-    DashboardArea --> Logout: Click Log Out
-    Logout --> LandingPage
+    DASH -->|Train Voice| S_PAGE
+    S_PAGE --> S_INPUT
+    S_INPUT --> S_PROF
+    
+    DASH -->|Analyze Competitors| G_PAGE
+    G_PAGE --> G_INPUT
+    G_INPUT --> G_CALC
+    G_CALC --> G_RES
+    
+    DASH -->|Forecast Longevity| P_PAGE
+    P_PAGE --> P_ML
+    P_ML --> P_RES
+    
+    T_CAL -.-> DASH
+    S_PROF -.-> DASH
+    G_RES -.-> DASH
+    P_RES -.-> DASH
 ```
 
 ## Key User Journeys

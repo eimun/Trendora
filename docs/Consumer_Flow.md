@@ -1,39 +1,39 @@
 # Trendora — Consumer Flow Diagram
 
-The consumer flow illustrates how a user (the content creator) interacts with the system to "consume" data insights and turn them into actionable content.
+The consumer flow illustrates how a user (the content creator) interacts with the system to "consume" data insights and turn them into actionable content. Utilizing specific shapes to distinguish between External APIs (Hexagons), Data Storage/Insights (Cylinders), User Decisions (Diamonds), and Processes (Subroutines).
 
 ```mermaid
-graph TD
+flowchart TD
     classDef user fill:#e1f5fe,stroke:#039be5,stroke-width:2px;
     classDef platform fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px;
     classDef insight fill:#e8f5e9,stroke:#43a047,stroke-width:2px;
 
-    U((User / Content Creator)):::user
+    U((👤 Content Creator)):::user
     
-    subgraph "Insight Consumption Phase"
-        T[Platform fetches PyTrends]:::platform
-        G[Platform calculates Trend Gaps]:::platform
-        P[Platform runs ML Forecasting]:::platform
+    subgraph "Phase 1: Insight Generation (Backend)"
+        T{{Google PyTrends}}:::platform
+        G{{Competitor Analysis}}:::platform
+        P{{ML Forecasting Engine}}:::platform
         
-        I1[Raw Trends]:::insight
-        I2[High Opportunity Gaps]:::insight
-        I3[Future Growth Predictions]:::insight
+        I1[(Raw Trends DB)]:::insight
+        I2[(Opportunity Gaps)]:::insight
+        I3[(Growth Predictions)]:::insight
         
         T --> I1
         G --> I2
         P --> I3
     end
     
-    subgraph "Action Phase"
-        A1[User reviews trending topics]:::user
-        A2[User identifies competitor gaps]:::user
-        A3[User validates trend longevity]:::user
+    subgraph "Phase 2: Insight Consumption (Frontend)"
+        A1{Review Trending<br/>Topics}:::user
+        A2{Identify Competitor<br/>Gaps}:::user
+        A3{Validate Trend<br/>Longevity}:::user
         
-        GEN[AI Generation Engine]:::platform
-        OUT[Personalized Video Script]:::insight
+        GEN[[AI Generation Engine]]:::platform
+        OUT[/Personalized Video Script/]:::insight
     end
     
-    U -->|Logs in & Selects Niche| InsightConsumptionPhase
+    U -->|Logs in & Selects Niche| I1
     
     I1 --> A1
     I2 --> A2

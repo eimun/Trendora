@@ -1,54 +1,83 @@
 # Trendora — Consumer Flow Diagram
 
-The consumer flow illustrates how a user (the content creator) interacts with the system to "consume" data insights and turn them into actionable content. Utilizing specific shapes to distinguish between External APIs (Hexagons), Data Storage/Insights (Cylinders), User Decisions (Diamonds), and Processes (Subroutines).
+This flowchart illustrates the step-by-step decision process a content creator (the consumer) follows when interacting with Trendora to strategize and generate content.
 
 ```mermaid
 flowchart TD
-    classDef user fill:#e1f5fe,stroke:#039be5,stroke-width:2px;
-    classDef platform fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px;
-    classDef insight fill:#e8f5e9,stroke:#43a047,stroke-width:2px;
+    %% Custom styling based on the reference image
+    classDef startNode fill:#ffaa00,stroke:#e69900,stroke-width:1px,color:#000,font-weight:bold,rx:5px,ry:5px
+    classDef actionNode fill:#4b8cfb,stroke:#3a7be0,stroke-width:1px,color:#fff
+    classDef decisionNode fill:#a279e6,stroke:#8f65d1,stroke-width:1px,color:#fff
+    classDef endNode fill:#ff99aa,stroke:#e68193,stroke-width:1px,color:#000,rx:5px,ry:5px
 
-    U((👤 Content Creator)):::user
+    START([START]):::startNode
     
-    subgraph "Phase 1: Insight Generation (Backend)"
-        T{{Google PyTrends}}:::platform
-        G{{Competitor Analysis}}:::platform
-        P{{ML Forecasting Engine}}:::platform
-        
-        I1[(Raw Trends DB)]:::insight
-        I2[(Opportunity Gaps)]:::insight
-        I3[(Growth Predictions)]:::insight
-        
-        T --> I1
-        G --> I2
-        P --> I3
-    end
+    LOGIN[Log in to Platform]:::actionNode
+    START --> LOGIN
     
-    subgraph "Phase 2: Insight Consumption (Frontend)"
-        A1{Review Trending<br/>Topics}:::user
-        A2{Identify Competitor<br/>Gaps}:::user
-        A3{Validate Trend<br/>Longevity}:::user
-        
-        GEN[[AI Generation Engine]]:::platform
-        OUT[/Personalized Video Script/]:::insight
-    end
+    NICHE[Select Content Niche]:::actionNode
+    LOGIN --> NICHE
     
-    U -->|Logs in & Selects Niche| I1
+    FETCH_TRENDS[Fetch Trending Topics]:::actionNode
+    NICHE --> FETCH_TRENDS
     
-    I1 --> A1
-    I2 --> A2
-    I3 --> A3
+    GAP{Run Gap<br/>Analysis?}:::decisionNode
+    FETCH_TRENDS --> GAP
     
-    A1 --> GEN
-    A2 --> GEN
-    A3 --> GEN
+    INPUT_COMP[Input Competitor URL]:::actionNode
+    GAP -->|✅ Yes| INPUT_COMP
     
-    GEN -->|Applies Style Profile| OUT
-    OUT --> U
+    IS_GAP{High<br/>Opportunity?}:::decisionNode
+    INPUT_COMP --> IS_GAP
+    
+    IS_GAP -->|❌ No| FETCH_TRENDS
+    
+    PRED{Check ML<br/>Forecast?}:::decisionNode
+    GAP -->|❌ No| PRED
+    IS_GAP -->|✅ Yes| PRED
+    
+    RUN_PRED[Run Trend Prediction]:::actionNode
+    PRED -->|✅ Yes| RUN_PRED
+    
+    IS_GROWTH{Trend<br/>Growing?}:::decisionNode
+    RUN_PRED --> IS_GROWTH
+    
+    IS_GROWTH -->|❌ No| FETCH_TRENDS
+    
+    GENERATE[Generate AI Script]:::actionNode
+    IS_GROWTH -->|✅ Yes| GENERATE
+    PRED -->|❌ No| GENERATE
+    
+    STYLE{Use Custom<br/>Style?}:::decisionNode
+    GENERATE --> STYLE
+    
+    HAS_PROFILE{Profile<br/>Trained?}:::decisionNode
+    STYLE -->|✅ Yes| HAS_PROFILE
+    
+    TRAIN_STYLE[Train Style Engine]:::actionNode
+    HAS_PROFILE -->|❌ No| TRAIN_STYLE
+    
+    PERS_SCRIPT[Apply Style Profile]:::actionNode
+    TRAIN_STYLE --> PERS_SCRIPT
+    HAS_PROFILE -->|✅ Yes| PERS_SCRIPT
+    
+    GEN_GENERIC[Generate Generic Script]:::actionNode
+    STYLE -->|❌ No| GEN_GENERIC
+    
+    CALENDAR{Schedule<br/>Post?}:::decisionNode
+    PERS_SCRIPT --> CALENDAR
+    GEN_GENERIC --> CALENDAR
+    
+    SAVE_POST[Save to Content Calendar]:::actionNode
+    CALENDAR -->|✅ Yes| SAVE_POST
+    
+    END([Content Strategy Complete]):::endNode
+    SAVE_POST --> END
+    CALENDAR -->|❌ No| END
 ```
 
 ## Flow Breakdown
 
-1. **Insight Consumption Phase**: The platform aggregates data from Google Trends, YouTube, and its internal ML models. It serves these as refined insights (Trends, Gaps, Predictions) to the user via the Dashboard.
-2. **Action Phase**: The user consumes these insights, deciding which topic has the best combination of low competition (Gap), high search volume (Trend), and future longevity (Prediction).
-3. **Execution**: The user passes their chosen insight into the Generation Engine, which applies their personal style profile to produce a script ready for filming.
+1. **Discovery & Validation**: The user starts by fetching trends. They use Gap Analysis and ML Predictions (decision diamonds) to validate if a trend is worth pursuing. 
+2. **Infinite Loop Prevention**: If a trend is highly competitive or predicted to decline, the flow loops back to fetching new trends (the ❌ No paths on validation).
+3. **Execution**: Once a winning trend is found, they proceed down the generation path, making decisions about tone (Custom Style vs Generic) and output destination (Save to Calendar).

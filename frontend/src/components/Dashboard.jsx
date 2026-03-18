@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
+
 import StyleTrainer from './StyleTrainer';
 import { API_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -34,8 +34,7 @@ function Dashboard() {
     }, [selectedNiche]);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-            <Navbar />
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
             <div className="p-8">
                 <div className="max-w-7xl mx-auto">
                     <motion.div

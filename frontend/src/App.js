@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
+import LandingPage from './components/LandingPage';
 import Dashboard from './components/Dashboard';
 import GapAnalysis from './components/GapAnalysis';
 import PredictiveDashboard from './components/PredictiveDashboard';
+import StyleTrainer from './components/StyleTrainer';
+import AppLayout from './components/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
@@ -10,10 +13,15 @@ function App() {
     <ErrorBoundary>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/gap-analysis" element={<GapAnalysis />} />
-          <Route path="/predictions" element={<PredictiveDashboard />} />
+          {/* Public routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+
+          {/* Authenticated routes with sidebar */}
+          <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
+          <Route path="/gap-analysis" element={<AppLayout><GapAnalysis /></AppLayout>} />
+          <Route path="/predictions" element={<AppLayout><PredictiveDashboard /></AppLayout>} />
+          <Route path="/style-trainer" element={<AppLayout><StyleTrainer /></AppLayout>} />
         </Routes>
       </BrowserRouter>
     </ErrorBoundary>

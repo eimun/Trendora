@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
+
 import { API_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -67,8 +67,7 @@ function GapAnalysis() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-            <Navbar />
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
             <div className="p-8">
                 <div className="max-w-7xl mx-auto">
                     <motion.div
@@ -173,8 +172,8 @@ function GapAnalysis() {
                                                 </p>
                                             </div>
                                             <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider ${gap.opportunity === 'High' ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' :
-                                                    gap.opportunity === 'Medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400' :
-                                                        'bg-gray-200 text-gray-700 dark:bg-gray-600/30 dark:text-gray-400'
+                                                gap.opportunity === 'Medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400' :
+                                                    'bg-gray-200 text-gray-700 dark:bg-gray-600/30 dark:text-gray-400'
                                                 }`}>
                                                 {gap.opportunity} Target
                                             </span>

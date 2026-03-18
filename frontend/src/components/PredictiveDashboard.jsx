@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
+
 import { API_URL } from '../config';
 import { motion } from 'framer-motion';
 
@@ -53,7 +53,6 @@ function PredictiveDashboard() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 transition-colors duration-200">
-            <Navbar />
             <div className="p-8">
                 <div className="max-w-7xl mx-auto">
                     <motion.div

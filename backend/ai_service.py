@@ -3,7 +3,7 @@ import json
 from google import genai
 
 gemini_key = os.getenv('GEMINI_API_KEY')
-print(f"🔑 GEMINI_API_KEY loaded: {'YES (' + gemini_key[:10] + '...)' if gemini_key else 'NO - KEY IS MISSING!'}")
+print(f"🔑 GEMINI_API_KEY loaded: {'YES (' + gemini_key[:10] + '...)' if gemini_key else 'NO - KEY IS MISSING!'}")  # type: ignore[index]
 
 client = genai.Client(api_key=gemini_key)
 MODEL = "gemini-2.0-flash"

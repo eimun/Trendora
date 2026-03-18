@@ -1,5 +1,5 @@
-from googleapiclient.discovery import build
-from youtubesearchpython import VideosSearch
+from googleapiclient.discovery import build  # pyre-ignore[21]
+from youtubesearchpython import VideosSearch  # pyre-ignore[21]
 import os
 from datetime import datetime, timedelta
 
@@ -64,8 +64,8 @@ def extract_keywords_from_videos(videos):
 def analyze_trend_gaps(user_id, niche):
     """Find trends that competitors haven't covered"""
     
-    from database import get_db_connection
-    from trends_service import get_cached_trends
+    from database import get_db_connection  # pyre-ignore[21]
+    from trends_service import get_cached_trends  # pyre-ignore[21]
     
     conn = get_db_connection()
     cur = conn.cursor()
@@ -76,7 +76,7 @@ def analyze_trend_gaps(user_id, niche):
         WHERE user_id = %s AND niche = %s
     ''', (user_id, niche))
     
-    competitors = cur.fetchall()
+    competitors: list[tuple[str, str]] = cur.fetchall()
     
     if not competitors:
         cur.close()
@@ -92,27 +92,27 @@ def analyze_trend_gaps(user_id, niche):
         keyword = trend['keyword']
         
         # Check how many competitors covered this
-        coverage_count = 0
+        coverage_count: int = 0
         
         for channel_id, channel_name in competitors:
             videos = get_channel_recent_videos(channel_id, days=14)
-            covered_keywords = extract_keywords_from_videos(videos)
+            covered_keywords: list[str] = extract_keywords_from_videos(videos)  # pyre-ignore
             
             # Check if trend keyword appears in their content
             if any(keyword.lower() in kw for kw in covered_keywords):
-                coverage_count += 1
+                coverage_count += 1  # pyre-ignore
         
         # Calculate gap score (higher = better opportunity)
-        total_competitors = len(competitors)
-        coverage_ratio = coverage_count / total_competitors if total_competitors > 0 else 0
-        gap_score = (1 - coverage_ratio) * (trend['volume'] / 100000)  # Normalize
+        total_competitors: int = len(competitors)
+        coverage_ratio: float = coverage_count / total_competitors if total_competitors > 0 else 0  # pyre-ignore
+        gap_score: float = (1 - coverage_ratio) * (trend['volume'] / 100000)  # Normalize
         
         gap_analysis.append({
             'keyword': keyword,
             'volume': trend['volume'],
             'competitor_coverage': coverage_count,
             'total_competitors': total_competitors,
-            'gap_score': round(gap_score, 2),
+            'gap_score': round(gap_score, 2),  # pyre-ignore
             'opportunity': 'High' if gap_score > 0.7 else 'Medium' if gap_score > 0.4 else 'Low'
         })
         
@@ -129,4 +129,4 @@ def analyze_trend_gaps(user_id, niche):
     # Sort by gap score
     gap_analysis.sort(key=lambda x: x['gap_score'], reverse=True)
     
-    return gap_analysis[:10]  # Return top 10 opportunities
+    return gap_analysis[:10]  # pyre-ignore  # Return top 10 opportunities

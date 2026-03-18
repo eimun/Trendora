@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
+import { motion } from 'framer-motion';
 
 function StyleTrainer() {
     const [styleStatus, setStyleStatus] = useState(null);
@@ -57,33 +58,37 @@ function StyleTrainer() {
     }, []);
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-4">✨ Your Writing Style</h2>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors"
+        >
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white flex items-center gap-2">✨ Your Writing Style</h2>
 
             {styleStatus?.trained ? (
-                <div>
-                    <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
-                        <p className="font-semibold text-green-800">✅ Style Profile Active</p>
-                        <p className="text-sm text-green-700 mt-1">
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-4 mb-6 rounded-r-lg">
+                        <p className="font-semibold text-green-800 dark:text-green-400">✅ Style Profile Active</p>
+                        <p className="text-sm text-green-700 dark:text-green-500 mt-1">
                             AI will now write in your unique voice!
                         </p>
                     </div>
 
                     {styleStatus.profile && (
-                        <div className="bg-gray-50 p-4 rounded mb-4">
-                            <h3 className="font-semibold mb-2">Your Style Characteristics:</h3>
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                                <div><strong>Tone:</strong> {styleStatus.profile.tone}</div>
-                                <div><strong>Vocabulary:</strong> {styleStatus.profile.vocabulary_level}</div>
-                                <div><strong>Humor:</strong> {styleStatus.profile.humor_style}</div>
-                                <div><strong>Pacing:</strong> {styleStatus.profile.pacing}</div>
+                        <div className="bg-gray-50 dark:bg-gray-700/50 border border-gray-100 dark:border-gray-700 p-6 rounded-xl mb-6">
+                            <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">Your Style Characteristics:</h3>
+                            <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-300">
+                                <div><strong className="text-gray-900 dark:text-white">Tone:</strong> {styleStatus.profile.tone}</div>
+                                <div><strong className="text-gray-900 dark:text-white">Vocabulary:</strong> {styleStatus.profile.vocabulary_level}</div>
+                                <div><strong className="text-gray-900 dark:text-white">Humor:</strong> {styleStatus.profile.humor_style}</div>
+                                <div><strong className="text-gray-900 dark:text-white">Pacing:</strong> {styleStatus.profile.pacing}</div>
                             </div>
                             {styleStatus.profile.signature_phrases && (
-                                <div className="mt-3">
-                                    <strong>Signature Phrases:</strong>
-                                    <div className="flex flex-wrap gap-2 mt-1">
+                                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                                    <strong className="text-gray-900 dark:text-white text-sm">Signature Phrases:</strong>
+                                    <div className="flex flex-wrap gap-2 mt-2">
                                         {styleStatus.profile.signature_phrases.map((phrase, i) => (
-                                            <span key={i} className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">
+                                            <span key={i} className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 px-3 py-1 rounded-full text-xs font-medium">
                                                 {phrase}
                                             </span>
                                         ))}
@@ -95,27 +100,27 @@ function StyleTrainer() {
 
                     <button
                         onClick={resetStyle}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                        className="text-red-600 dark:text-red-400 hover:text-white border border-red-600 dark:border-red-400 hover:bg-red-600 dark:hover:bg-red-500 px-6 py-2 rounded-lg transition-colors font-medium text-sm"
                     >
                         Reset Style Profile
                     </button>
-                </div>
+                </motion.div>
             ) : (
-                <div>
-                    <p className="text-gray-600 mb-4">
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg">
                         Save at least 3 scripts to train your personalized style profile.
                         The AI will then write content that sounds like YOU!
                     </p>
                     <button
                         onClick={trainStyle}
                         disabled={loading}
-                        className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700 disabled:bg-gray-400"
+                        className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 font-bold"
                     >
-                        {loading ? 'Training...' : '🎓 Train My Style'}
+                        {loading ? 'Analyzing your style...' : '🎓 Train My Style'}
                     </button>
-                </div>
+                </motion.div>
             )}
-        </div>
+        </motion.div>
     );
 }
 

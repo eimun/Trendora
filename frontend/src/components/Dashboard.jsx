@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import StyleTrainer from './StyleTrainer';
 import { API_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, Tooltip, ResponsiveContainer } from 'recharts';
 import { Sparkles, Activity, Maximize2, X, TrendingUp } from 'lucide-react';
 
 function Dashboard() {
@@ -158,8 +158,8 @@ function TrendCard({ trend }) {
             <div className="flex justify-between items-start mb-4 pr-16">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight capitalize">{trend.keyword}</h3>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${isHot
-                        ? 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400'
-                        : 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400'
+                    ? 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400'
+                    : 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400'
                     }`}>
                     {isHot ? '🔥 Hot' : '📈 Rising'}
                 </span>

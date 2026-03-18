@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import { API_URL } from '../config';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function GapAnalysis() {
     const [competitors, setCompetitors] = useState([]);
@@ -66,22 +67,31 @@ function GapAnalysis() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
             <Navbar />
             <div className="p-8">
                 <div className="max-w-7xl mx-auto">
-                    <h1 className="text-4xl font-bold mb-8">🎯 Trend Gap Analysis</h1>
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">🎯 Trend Gap Analysis</h1>
+                    </motion.div>
 
                     {/* Add Competitor Form */}
-                    <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h2 className="text-2xl font-semibold mb-4">Track Competitors</h2>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 mb-8"
+                    >
+                        <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">Track Competitors</h2>
                         <form onSubmit={addCompetitor} className="flex gap-4 flex-wrap">
                             <input
                                 type="text"
                                 placeholder="YouTube Channel ID"
                                 value={channelId}
                                 onChange={(e) => setChannelId(e.target.value)}
-                                className="flex-1 min-w-[200px] p-3 border rounded"
+                                className="flex-1 min-w-[200px] p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 dark:text-white outline-none transition-all"
                                 required
                             />
                             <input
@@ -89,81 +99,101 @@ function GapAnalysis() {
                                 placeholder="Channel Name"
                                 value={channelName}
                                 onChange={(e) => setChannelName(e.target.value)}
-                                className="flex-1 min-w-[200px] p-3 border rounded"
+                                className="flex-1 min-w-[200px] p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 dark:text-white outline-none transition-all"
                                 required
                             />
                             <select
                                 value={selectedNiche}
                                 onChange={(e) => setSelectedNiche(e.target.value)}
-                                className="p-3 border rounded"
+                                className="p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 dark:text-white outline-none transition-all"
                             >
                                 <option value="tech">Tech</option>
                                 <option value="finance">Finance</option>
                                 <option value="lifestyle">Lifestyle</option>
                                 <option value="health">Health</option>
                             </select>
-                            <button type="submit" className="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700">
-                                Add
+                            <button type="submit" className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5">
+                                Add Target
                             </button>
                         </form>
 
                         {/* Competitors List */}
-                        <div className="mt-6">
-                            <h3 className="font-semibold mb-2">Tracked Competitors ({competitors.length}):</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {competitors.map(comp => (
-                                    <span key={comp.id} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                                        {comp.channel_name} ({comp.niche})
-                                    </span>
-                                ))}
+                        <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+                            <h3 className="font-semibold mb-3 text-gray-700 dark:text-gray-300">Tracking Networks ({competitors.length}):</h3>
+                            <div className="flex flex-wrap gap-3">
+                                <AnimatePresence>
+                                    {competitors.map(comp => (
+                                        <motion.span
+                                            initial={{ scale: 0.8, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            key={comp.id}
+                                            className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium border border-blue-100 dark:border-blue-800/30"
+                                        >
+                                            {comp.channel_name} <span className="text-blue-400 dark:text-blue-600 text-xs ml-1 uppercase">{comp.niche}</span>
+                                        </motion.span>
+                                    ))}
+                                </AnimatePresence>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Analyze Button */}
-                    <button
+                    <motion.button
+                        whileHover={!loading && competitors.length > 0 ? { scale: 1.02 } : {}}
                         onClick={analyzeGaps}
                         disabled={loading || competitors.length === 0}
-                        className="w-full bg-green-600 text-white py-4 rounded-lg font-semibold text-lg hover:bg-green-700 disabled:bg-gray-400 mb-8"
+                        className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-emerald-500/30 disabled:from-gray-400 disabled:to-gray-500 disabled:shadow-none transition-all mb-10"
                     >
-                        {loading ? 'Analyzing...' : '🔍 Find Untapped Opportunities'}
-                    </button>
+                        {loading ? '🔍 Sweeping competitor networks...' : '⚡ Find Untapped Opportunities'}
+                    </motion.button>
 
                     {/* Gap Results */}
                     {gaps.length > 0 && (
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-semibold mb-4">📊 Opportunity Report</h2>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700"
+                        >
+                            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">📊 Opportunity Report</h2>
                             <div className="space-y-4">
                                 {gaps.map((gap, index) => (
-                                    <div key={index} className="border-l-4 border-purple-600 pl-4 py-3 bg-gray-50 rounded">
+                                    <motion.div
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        key={index}
+                                        className="border-l-4 border-emerald-500 pl-5 py-4 bg-gray-50 dark:bg-gray-700/50 rounded-r-xl border-y border-r border-gray-100 dark:border-gray-700 shadow-sm"
+                                    >
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <h3 className="text-lg font-semibold">{gap.keyword}</h3>
-                                                <p className="text-sm text-gray-600">
-                                                    Volume: {gap.volume?.toLocaleString()} |
-                                                    Coverage: {gap.competitor_coverage}/{gap.total_competitors} competitors
+                                                <h3 className="text-xl font-bold text-gray-900 dark:text-white capitalize mb-1">{gap.keyword}</h3>
+                                                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                    Volume: <span className="text-gray-900 dark:text-gray-200">{gap.volume?.toLocaleString()}</span> |
+                                                    Coverage: <span className="text-gray-900 dark:text-gray-200">{gap.competitor_coverage}/{gap.total_competitors}</span> channels
                                                 </p>
                                             </div>
-                                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${gap.opportunity === 'High' ? 'bg-green-100 text-green-800' :
-                                                gap.opportunity === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                                                    'bg-gray-100 text-gray-800'
+                                            <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider ${gap.opportunity === 'High' ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' :
+                                                    gap.opportunity === 'Medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400' :
+                                                        'bg-gray-200 text-gray-700 dark:bg-gray-600/30 dark:text-gray-400'
                                                 }`}>
-                                                {gap.opportunity} Opportunity
+                                                {gap.opportunity} Target
                                             </span>
                                         </div>
-                                        <div className="mt-2">
-                                            <div className="bg-gray-200 rounded-full h-2">
-                                                <div
-                                                    className="bg-purple-600 h-2 rounded-full"
-                                                    style={{ width: `${gap.gap_score * 100}%` }}
-                                                ></div>
+                                        <div className="mt-4">
+                                            <div className="bg-gray-200 dark:bg-gray-600 rounded-full h-2 overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${gap.gap_score * 100}%` }}
+                                                    transition={{ duration: 1 }}
+                                                    className="bg-emerald-500 h-2 rounded-full"
+                                                ></motion.div>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-1">Gap Score: {gap.gap_score}</p>
+                                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mt-2">Gap Index: {(gap.gap_score * 100).toFixed(0)} / 100</p>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
                     )}
                 </div>
             </div>

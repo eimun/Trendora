@@ -7,6 +7,21 @@ import PredictiveDashboard from './components/PredictiveDashboard';
 import StyleTrainer from './components/StyleTrainer';
 import AppLayout from './components/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary';
+import axios from 'axios';
+
+// Global Axios Interceptor for handling 401 Unauthorized errors
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      if (window.location.pathname !== '/login') {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 function App() {
   return (

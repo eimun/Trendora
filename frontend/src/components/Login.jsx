@@ -8,10 +8,12 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isRegister, setIsRegister] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         const endpoint = isRegister ? '/api/auth/register' : '/api/auth/login';
 
@@ -26,6 +28,8 @@ function Login() {
             navigate('/dashboard');
         } catch (error) {
             alert(error.response?.data?.error || 'Authentication failed');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -49,10 +53,13 @@ function Login() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <input
+                            id="email"
+                            name="email"
                             type="email"
                             placeholder="Email address"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            autoComplete="email"
                             className="w-full p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white transition-all outline-none"
                             required
                         />
@@ -60,10 +67,13 @@ function Login() {
 
                     <div>
                         <input
+                            id="password"
+                            name="password"
                             type="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            autoComplete={isRegister ? "new-password" : "current-password"}
                             className="w-full p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white transition-all outline-none"
                             required
                         />
@@ -71,9 +81,14 @@ function Login() {
 
                     <button
                         type="submit"
-                        className="w-full mt-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-0.5 transition-all"
+                        disabled={loading}
+                        className={`w-full mt-6 text-white p-4 rounded-xl font-bold text-lg transition-all ${
+                            loading 
+                                ? 'bg-purple-400 cursor-not-allowed opacity-70' 
+                                : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-0.5'
+                        }`}
                     >
-                        {isRegister ? 'Sign Up' : 'Login'}
+                        {loading ? 'Please wait...' : (isRegister ? 'Sign Up' : 'Login')}
                     </button>
                 </form>
 

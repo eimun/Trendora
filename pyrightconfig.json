@@ -1,0 +1,14 @@
+{
+    "pythonPath": ".venv/bin/python",
+    "extraPaths": [
+        "./backend"
+    ],
+    "executionEnvironments": [
+        {
+            "root": "backend",
+            "extraPaths": [
+                "."
+            ]
+        }
+    ]
+}
